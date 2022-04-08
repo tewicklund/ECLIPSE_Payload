@@ -2,8 +2,6 @@
 #include <SPI.h>
 #include <RH_RF95.h>
 
-//Servo Library:
-#include <Servo.h>
 
 //Radio setup:
 #if defined (__AVR_ATmega328P__)  // UNO or Feather 328P w/wing
@@ -13,9 +11,6 @@
 #define LED           13
 #endif
 
-//servo setup:
-Servo myservo;
-int pos=0;
 
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
@@ -25,8 +20,6 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 void setup()
 {
-  //servo setup:
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
   
   //Radio setup:
   pinMode(RFM95_RST, OUTPUT);
@@ -84,7 +77,7 @@ void loop() {
     Serial.println("Position: "+posString);
     
     //create radio packet with 3 numbers, will eventually be 0 to 360 degrees
-    char radiopacket[4]=posString+"0";
+    char radiopacket[4]={posString[0],posString[1],posString[2],'0'};
     Serial.print("Sending "); Serial.println(radiopacket);
     //set the last char to 0 for some reason:
     radiopacket[3]=0;
