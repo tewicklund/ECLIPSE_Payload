@@ -1,3 +1,5 @@
+#This code constantly sends a pluse that says "RDE"
+
 #General setup:
 import time
 import RPi.GPIO as GPIO
