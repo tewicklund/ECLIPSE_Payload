@@ -1,12 +1,21 @@
+//Radio Libraries:
 #include <SPI.h>
 #include <RH_RF95.h>
 
+//Servo Library:
+#include <Servo.h>
+
+//Radio setup:
 #if defined (__AVR_ATmega328P__)  // UNO or Feather 328P w/wing
 #define RFM95_INT     3  // 
 #define RFM95_CS      4  //
 #define RFM95_RST     2  // "A"
 #define LED           13
 #endif
+
+//servo setup:
+Servo myservo;
+int pos=0;
 
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
@@ -16,6 +25,10 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 void setup()
 {
+  //servo setup:
+  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  
+  //Radio setup:
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
 
@@ -57,18 +70,32 @@ void setup()
 }
 
 void loop() {
-  //create radio packet with 3 numbers, will eventually be 0 to 360 degrees
-  char radiopacket[4] = "000";
-  //print what the arduino is sending:
-  Serial.print("Sending "); Serial.println(radiopacket);
-  //set the last char to 0 for some reason:
-  radiopacket[3]=0;
-  //send the packet:
-  rf95.send((uint8_t *)radiopacket, 4);
-  //wait while the packet is sending:
-  rf95.waitPacketSent();
-  //add delay for loop stability:
-  delay(10);
   
+  for (pos = 0; pos <= 180 pos += 1)
+  {
+    myservo.write(pos);
+    String posString=String(pos);
+    if(pos<=9)
+    {
+      posString="00"+posString;
+    }
+    if(pos>9 && pos<=99)
+    {
+      posString="0"+posString;
+    }
+    Serial.println("Position: "+posString);
+    
+    //create radio packet with 3 numbers, will eventually be 0 to 360 degrees
+    char radiopacket[4]=posString+"0";
+    Serial.print("Sending "); Serial.println(radiopacket);
+    //set the last char to 0 for some reason:
+    radiopacket[3]=0;
+    //send the packet:
+    rf95.send((uint8_t *)radiopacket, 4);
+    //wait while the packet is sending:
+    rf95.waitPacketSent();
+    //add delay for loop stability:
+    delay(10);
+   }
 }
 
