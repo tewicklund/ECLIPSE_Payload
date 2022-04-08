@@ -26,8 +26,8 @@ except RuntimeError as error:
     print('RFM9x Error: ', error)
  
 #Rapidly send the string "RDE"
+print("Sending Pulses...")
 while True:
-
     message=bytes("RDE","utf-8")
     rfm9x.send(message)
     time.sleep(0.01)
