@@ -71,7 +71,34 @@ void setup()
 
 void loop() {
   
-  for (pos = 0; pos <= 180 pos += 1)
+  for (pos = 0; pos <= 360; pos += 1)
+  {
+    myservo.write(pos);
+    String posString=String(pos);
+    if(pos<=9)
+    {
+      posString="00"+posString;
+    }
+    if(pos>9 && pos<=99)
+    {
+      posString="0"+posString;
+    }
+    Serial.println("Position: "+posString);
+    
+    //create radio packet with 3 numbers, will eventually be 0 to 360 degrees
+    char radiopacket[4]=posString+"0";
+    Serial.print("Sending "); Serial.println(radiopacket);
+    //set the last char to 0 for some reason:
+    radiopacket[3]=0;
+    //send the packet:
+    rf95.send((uint8_t *)radiopacket, 4);
+    //wait while the packet is sending:
+    rf95.waitPacketSent();
+    //add delay for loop stability:
+    delay(10);
+   }
+  
+  for (pos = 360; pos >= 0; pos -= 1)
   {
     myservo.write(pos);
     String posString=String(pos);
