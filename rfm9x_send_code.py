@@ -1,6 +1,8 @@
 #https://learn.adafruit.com/lora-and-lorawan-radio-for-raspberry-pi/raspberry-pi-wiring
 #sudo pip3 install adafruit-circuitpython-rfm9x
 
+#This code simply sends packets constantly, the LEDs do nothing.
+
 import time
 import RPi.GPIO as GPIO
 import board
