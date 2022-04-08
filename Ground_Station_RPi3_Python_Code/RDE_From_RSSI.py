@@ -32,6 +32,10 @@ while True:
         prev_packet=packet
         packet_text=str(prev_packet, "utf-8")
         if (packet_text=="RDE"):
-            print("Signal Strength:" + str(rfm9x.last_rssi) + " dBm")
+            rssi=rfm9x.last_rssi
+            rssiString=str(rssi)
+            print("Signal Strength:" + rssiString + " dBm")
+            #distance=rssi*???
+            
         
         time.sleep(0.1)
