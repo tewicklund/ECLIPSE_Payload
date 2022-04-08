@@ -15,10 +15,12 @@ void loop() {
   for (pos = 0; pos <= 360; pos += 1) { // goes from 0 degrees to 360 degrees
     // in steps of 1 degree
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    //put code here to send the pos over i2c
     delay(15);                       // waits 15 ms for the servo to reach the position
   }
   for (pos = 360; pos >= 0; pos -= 1) { // goes from 360 degrees to 0 degrees
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    //put code here to send the pos over i2c
     delay(15);                       // waits 15 ms for the servo to reach the position
   }
 }
