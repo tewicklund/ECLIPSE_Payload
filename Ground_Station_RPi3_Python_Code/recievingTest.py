@@ -1,3 +1,5 @@
+#This code turns on the blue LED if the ground station is receiving packets, red if it isn't.
+
 import time
 import RPi.GPIO as GPIO
 import board
