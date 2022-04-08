@@ -1,6 +1,8 @@
 #https://learn.adafruit.com/lora-and-lorawan-radio-for-raspberry-pi/raspberry-pi-wiring
 #sudo pip3 install adafruit-circuitpython-rfm9x
 
+#This code prints received packet text, turns on the blue LED when receiving packets, and turns on the red LED when waiting for packets.
+
 import time
 import RPi.GPIO as GPIO
 import board
