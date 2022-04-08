@@ -43,7 +43,6 @@ while True:
         GPIO.output(bled, GPIO.HIGH)
         packet_text=str(prev_packet, "utf-8")
         print(packet_text)
-        #reply=bytes("Bruh","utf-8")
-        #rfm9x.send(reply)
+       
     time.sleep(0.1)
 
