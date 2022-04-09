@@ -4,7 +4,6 @@ adafruit-circuitpython-rfm9x==2.2.3
 adafruit-circuitpython-typing==1.1.1
 Adafruit-PlatformDetect==3.20.0
 Adafruit-PureIO==1.1.9
-arandr==0.1.10
 astroid==2.5.1
 asttokens==2.0.4
 automationhat==0.2.0
@@ -19,7 +18,6 @@ click==7.1.2
 colorama==0.4.4
 colorzero==1.1
 cryptography==3.3.2
-cupshelpers==1.0
 dbus-python==1.2.16
 distro==1.5.0
 docutils==0.16
@@ -35,7 +33,6 @@ isort==5.6.4
 itsdangerous==1.1.0
 jedi==0.18.0
 Jinja2==2.11.3
-lazy-object-proxy==0.0.0
 logilab-common==1.8.1
 lxml==4.6.3
 MarkupSafe==1.1.1
@@ -51,7 +48,6 @@ olefile==0.46
 pantilthat==0.0.7
 parso==0.8.1
 pexpect==4.8.0
-pgzero==1.2
 phatbeat==0.1.1
 pianohat==0.1.0
 picamera==1.13
@@ -62,7 +58,6 @@ psutil==5.8.0
 pycairo==1.16.2
 pycups==2.0.1
 pyftdi==0.53.3
-pygame==1.9.6
 Pygments==2.7.1
 PyGObject==3.38.0
 pyinotify==0.9.6
@@ -70,7 +65,6 @@ PyJWT==1.7.1
 pylint==2.7.2
 pyOpenSSL==20.0.1
 pyserial==3.5b0
-pysmbc==1.0.23
 python-apt==2.2.1
 pyusb==1.2.1
 rainbowhat==0.1.0
@@ -91,7 +85,7 @@ six==1.16.0
 skywriter==0.0.7
 sn3218==1.2.7
 soupsieve==2.2.1
-spidev==3.3
+spidev==3.5
 ssh-import-id==5.10
 sysv-ipc==1.1.0
 thonny==3.3.14
