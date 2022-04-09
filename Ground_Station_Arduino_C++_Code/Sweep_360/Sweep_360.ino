@@ -16,25 +16,27 @@ void setup() {
 int pos = 0;    // variable to store the servo position
 
 void loop() {
-  for (pos = 0; pos <= 360; pos += 1) { // goes from 0 degrees to 360 degrees
+  for (pos = 600; pos <=2400 ; pos += 1) { // goes from 0 degrees to 360 degrees
     // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    myservo.writeMicroseconds(pos);              // tell servo to go to position in variable 'pos'
+    Serial.println(pos);
     
     //put code here to send the pos over i2c
     Wire.beginTransmission(4); // transmit to device #4
     Wire.write(pos);           //send int pos
     Wire.endTransmission();    // stop transmitting
     
-    delay(15);                       // waits 15 ms for the servo to reach the position
+    delay(30);                       // waits 15 ms for the servo to reach the position
   }
-  for (pos = 360; pos >= 0; pos -= 1) { // goes from 360 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+  for (pos = 2400; pos >= 600; pos -= 1) { // goes from 360 degrees to 0 degrees
+    myservo.writeMicroseconds(pos);              // tell servo to go to position in variable 'pos'
+    Serial.println(pos);
     
     //put code here to send the pos over i2c
     Wire.beginTransmission(4); // transmit to device #4
     Wire.write(pos);           //send int pos
     Wire.endTransmission();    // stop transmitting
     
-    delay(15);                       // waits 15 ms for the servo to reach the position
+    delay(30);                       // waits 15 ms for the servo to reach the position
   }
 }
