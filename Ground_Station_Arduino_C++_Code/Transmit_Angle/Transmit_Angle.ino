@@ -1,6 +1,7 @@
 //Radio Libraries:
 #include <SPI.h>
 #include <RH_RF95.h>
+#include <Wire.h>
 
 
 //Radio setup:
@@ -18,12 +19,19 @@
 // Singleton instance of the radio driver
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
+//integer to store the angle of the servo recieved from MKR ZERO
+int pos = 0;
+
 void setup()
 {
-  
+
   //Radio setup:
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
+
+  //i2c setup:
+  Wire.begin(4);                // join i2c bus with address #4
+  Wire.onReceive(receiveEvent); // register event
 
   Serial.begin(9600);
   while (!Serial) {
@@ -63,28 +71,35 @@ void setup()
 }
 
 void loop() {
-    int pos=0;
-    //put code here to import the position from i2c
-    String posString=String(pos);
-    if(pos<=9)
-    {
-      posString="00"+posString;
-    }
-    if(pos>9 && pos<=99)
-    {
-      posString="0"+posString;
-    }
-    Serial.println("Position: "+posString);
-    
-    //create radio packet with 3 numbers, will eventually be 0 to 360 degrees
-    char radiopacket[4]={posString[0],posString[1],posString[2],'0'};
-    Serial.print("Sending "); Serial.println(radiopacket);
-    //set the last char to 0 for some reason:
-    radiopacket[3]=0;
-    //send the packet:
-    rf95.send((uint8_t *)radiopacket, 4);
-    //wait while the packet is sending:
-    rf95.waitPacketSent();
-    //add delay for loop stability:
-    delay(10);
+
+  //add delay for loop stability:
+  delay(10);
+
+}
+
+void receiveEvent(int howMany)
+{
+
+  int pos = Wire.read();    // receive byte as an integer
+  //Serial.println(pos);         // print the integer
+  String posString = String(pos);
+  if (pos <= 9)
+  {
+    posString = "00" + posString;
+  }
+  if (pos > 9 && pos <= 99)
+  {
+    posString = "0" + posString;
+  }
+  Serial.println("Position: " + posString);
+
+  //create radio packet with 3 numbers, will eventually be 0 to 360 degrees
+  char radiopacket[4] = {posString[0], posString[1], posString[2], '0'};
+  Serial.print("Sending "); Serial.println(radiopacket);
+  //set the last char to 0 for some reason:
+  radiopacket[3] = 0;
+  //send the packet:
+  rf95.send((uint8_t *)radiopacket, 4);
+  //wait while the packet is sending:
+  rf95.waitPacketSent();
 }
