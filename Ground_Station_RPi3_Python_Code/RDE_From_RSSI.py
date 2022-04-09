@@ -29,13 +29,18 @@ while True:
     if packet is None:
         print("waiting for packet")
     else:
-        prev_packet=packet
-        packet_text=str(prev_packet, "utf-8")
-        if (packet_text=="RDE"):
-            rssi=rfm9x.last_rssi
-            rssiString=str(rssi)
-            print("Signal Strength:" + rssiString + " dBm")
-            #distance=rssi*???
-            
+        last10values=[0,0,0,0,0,0,0,0,0,0]
+        for x in last10values:
+            prev_packet=packet
+            packet_text=str(prev_packet, "utf-8")
+            if (packet_text=="RDE"):
+                rssi=rfm9x.last_rssi
+                last10values(x)=rssi
+                rssiString=str(rssi)
+                #print("Signal Strength:" + rssiString + " dBm")
+                #distance=rssi*???
+            time.sleep(0.1)
+        AverageRSSI=sum(last10values)/10
+        print(AverageRSSI)
         
-        time.sleep(0.1)
+        
