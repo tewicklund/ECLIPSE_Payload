@@ -41,7 +41,7 @@ while True:
         prev_packet=packet
         GPIO.output(rled, GPIO.LOW)
         GPIO.output(bled, GPIO.HIGH)
-        packet_text=str(prev_packet, "utf-8")
+        packet_text=str(prev_packet, "ascii", "ignore")
         print(packet_text)
        
     time.sleep(0.1)

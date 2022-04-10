@@ -56,7 +56,6 @@ pigpio==1.78
 Pillow==8.1.2
 psutil==5.8.0
 pycairo==1.16.2
-pycups==2.0.1
 pyftdi==0.53.3
 Pygments==2.7.1
 PyGObject==3.38.0
@@ -75,7 +74,6 @@ responses==0.12.1
 roman==2.0.0
 rpi-ws281x==4.3.2
 RPi.GPIO==0.7.0
-RTIMULib==7.2.1
 scrollphat==0.0.7
 scrollphathd==1.2.1
 Send2Trash==1.6.0b1
