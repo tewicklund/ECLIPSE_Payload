@@ -11,6 +11,7 @@ Servo myservo;  // create servo object to control a servo
 void setup() {
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object
   Serial1.begin(9600);
+  Serial.begin(9600);
 }
 
 int pos = 0;    // variable to store the servo position
@@ -24,10 +25,12 @@ void loop() {
     if (pos<999)
     {
       Serial1.println("UUU0"+String(pos)+";;;");
+      Serial.println("UUU0"+String(pos)+";;;");
     }
     else
     {
       Serial1.println("UUU"+String(pos)+";;;");
+      Serial.println("UUU"+String(pos)+";;;");
     }
     
     delay(30);                       // waits 15 ms for the servo to reach the position
@@ -39,10 +42,12 @@ void loop() {
     if (pos<999)
     {
       Serial1.println("UUU0"+String(pos)+";;;");
+      Serial.println("UUU0"+String(pos)+";;;");
     }
     else
     {
       Serial1.println("UUU"+String(pos)+";;;");
+      Serial.println("UUU"+String(pos)+";;;");
     }
     delay(30);                       // waits 30 ms for the servo to reach the position
   }
