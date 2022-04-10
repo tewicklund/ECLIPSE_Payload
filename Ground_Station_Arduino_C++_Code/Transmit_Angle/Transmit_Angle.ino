@@ -29,22 +29,18 @@ int pos = 0;
 
 void setup()
 {
-
   //Radio setup:
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
 
-  
-
+  //Serial setup:
   Serial.begin(9600);
   while (!Serial) {
     delay(1);
   }
 
-
+  //software serial setup:
   mySerial.begin(9600);
-
-  delay(100);
 
   //Serial.println("Feather LoRa TX Test!");
 
@@ -60,10 +56,6 @@ void setup()
     while (1);
   }
   Serial.println("LoRa radio init OK!");
-
-  //i2c setup:
-//  Wire.begin(4);                // join i2c bus with address #4
-//  Wire.onReceive(receiveEvent); // register event
 
   // Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM
   if (!rf95.setFrequency(RF95_FREQ)) {
@@ -83,84 +75,41 @@ void setup()
 void loop() {
 
   //add delay for loop stability:
-  delay(50);
-  
-  if(mySerial.available()){
-    receiveEvent(mySerial.available());
-  }
-  
-
-}
-
-void receiveEvent(int howMany) {
-  Serial.println("got "+String(mySerial.available())+"bytes");
-  while (1 < mySerial.available()) { // loop through all but the last
-    char c = mySerial.read(); // receive byte as a character
-    if(c=='U'){
-      char radioPacket[8];
-      int packetIndex=0;
-      while(c!=';'){
-        
-        c = mySerial.read(); // receive byte as a character
-        if(c!="U"){
-          radioPacket[packetIndex]=c;
-          packetIndex++;
-        }
+ // delay(5);
+  //Serial.println(mySerial.available());
+  char receivedString[10];
+  int packetIndex=0;
+  if (mySerial.available()) {
+    char c = mySerial.read();
+    //Serial.print(c);
+    if (c == 'U') {
+      delay(5);  //allow time for remainder of message to arrive
+      bool isValid=true;
+      while(c=='U'){
+        c=mySerial.read();// filter out following 2 sychronization 'U's
       }
-      radioPacket[packetIndex-1]=0;
-      Serial.println("transmitting: "+String(radioPacket));
-      rf95.send((uint8_t *)radioPacket, packetIndex+1);
-      rf95.waitPacketSent();
-
+      char radioPacket[8];
+      for(int i=0; i<4; i++){
+        if(c < '0'|| c > '9'){
+          isValid=false;
+          Serial.print("warning, invalid number recieved, "+String(c));
+          break;
+        }
+        Serial.print("got "+String(c));
+        radioPacket[i]=c;
+        c=mySerial.read();
+      }
+      if (c!=';'){
+        isValid=false;
+        Serial.print("warning expected ';' recieved "+String(c));
+      }
+      if (isValid){
+        radioPacket[4]=0;
+        Serial.println("transmitting: " + String(radioPacket));
+        rf95.send((uint8_t *)radioPacket, 5);
+        rf95.waitPacketSent();
+      }
     }
-   // Serial.print(c);         // print the character
   }
-  //int pos = mySerial.read();    // receive byte as an integer
-  //Serial.println(pos);         // print the integer
-  /*String posString = String(sprintf("%c%c%c%c",mySerial.read(),mySerial.read(),mySerial.read(),mySerial.read()));
-  
-  Serial.println("Position: " + posString);
-  
-  //create radio packet with 3 numbers, will eventually be 0 to 360 degrees
-  char radiopacket[4] = {posString[0], posString[1], posString[2], 0};
-
-  radiopacket[3] = 0;
-  //delay(5);
-  //send the packet:*/
-  //rf95.send((uint8_t *)radiopacket, 4);
-  //delay(5);
-  //wait while the packet is sending:
- // rf95.waitPacketSent();
 }
-/*
-void receiveEvent(int howMany)
-{
-  //Serial.println("1234567890");
-  while (1 < Wire.available()) { // loop through all but the last
-    char c = Wire.read(); // receive byte as a character
-    Serial.print(c);         // print the character
-  }
-  int pos = 765;//Wire.read();    // receive byte as an integer
-  Serial.println(pos);         // print the integer
-  String posString = String(pos);
-  if (pos <= 9)
-  {
-    posString = "00" + posString;
-  }
-  if (pos > 9 && pos <= 99)
-  {
-    posString = "0" + posString;
-  }
-  //Serial.println("Position: " + posString);
 
-  //create radio packet with 3 numbers, will eventually be 0 to 360 degrees
-  char radiopacket[4] = {posString[0], posString[1], posString[2], '0'};
-  //Serial.print("Sending "); //Serial.println(radiopacket);
-  //set the last char to 0 for some reason:
-  radiopacket[3] = 0;
-  //send the packet:
-  rf95.send((uint8_t *)radiopacket, 4);
-  //wait while the packet is sending:
-  rf95.waitPacketSent();
-}
-*/
