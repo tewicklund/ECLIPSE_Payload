@@ -17,7 +17,7 @@ void setup() {
 int pos = 0;    // variable to store the servo position
 
 void loop() {
-  for (pos = 600; pos <=2400 ; pos += 1) { 
+  for (pos = 620; pos <=2400 ; pos += 10) { 
     // in steps of 1 degree
     myservo.writeMicroseconds(pos);              // tell servo to go to position in variable 'pos'
     
@@ -33,9 +33,9 @@ void loop() {
       Serial.println("UUU"+String(pos)+";;;");
     }
     
-    delay(30);                       // waits 15 ms for the servo to reach the position
+    delay(300);                       // waits 15 ms for the servo to reach the position
   }
-  for (pos = 2400; pos >= 600; pos -= 1) { 
+  for (pos = 2400; pos >= 620; pos -= 10) { 
     myservo.writeMicroseconds(pos);              // tell servo to go to position in variable 'pos'
     
     //write a string formatted as "UUU####;;;" where the # are chars of numbers, example "UUU2038;;;"
@@ -49,6 +49,6 @@ void loop() {
       Serial1.println("UUU"+String(pos)+";;;");
       Serial.println("UUU"+String(pos)+";;;");
     }
-    delay(30);                       // waits 30 ms for the servo to reach the position
+    delay(300);                       // waits 30 ms for the servo to reach the position
   }
 }
