@@ -26,10 +26,14 @@ while True:
     packet=None
     packet=rfm9x.receive()
     if packet is None:
-        print("waiting for packet")
+        #print("waiting for packet")
+        pass
     else:
         prev_packet=packet
         packet_text=str(prev_packet, "utf-8")
-        print(str(rfm9x.last_rssi))
+        packet_int=int(packet_text[0:-1])
+        packet_int=(packet_int-620)/5
+        print("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
+        #print(str)
     time.sleep(0.1)
 
