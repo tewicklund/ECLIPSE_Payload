@@ -2,7 +2,9 @@ import numpy as np
 import warnings
 warnings.filterwarnings('ignore')
 
-#Angles = (RecievedServoData-620)*(180/1000)
+#strength = np.zeros(360)
+#Angles = int((RecivedServoData-620)*(180/1000))
+#strength[Angles] = RecievedStrength
 
 #Creating Data Set For Testing 1
 angles1 = np.linspace(1,360,360)
@@ -10,6 +12,8 @@ strengths1 = np.linspace(-60,-60,45)
 strengths = np.linspace(-30,-30,180)
 strengths2 = np.linspace(-60,-60,135)
 strengths1 = np.concatenate((strengths1, strengths, strengths2))
+angles1[strengths1 != np.NaN]
+strengths1[strengths1 != np.NaN]
 
 #Creating Data Set For Testing 2
 angles2 = np.linspace(1,360,360)
@@ -17,6 +21,8 @@ twostrengths1 = np.linspace(-60,-60,45)
 twostrengths = np.linspace(-30,-30,180)
 twostrengths2 = np.linspace(-60,-60,135)
 strengths2 = np.concatenate((twostrengths1, twostrengths, twostrengths2))
+angles1[strengths1 != np.NaN]
+strengths1[strengths1 != np.NaN]
 
 #Starting Data Insert
 distance12 = 800
