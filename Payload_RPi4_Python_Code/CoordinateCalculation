@@ -3,20 +3,19 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #Angles = (RecievedServoData-620)*(180/1000)
-#Strengths = (RecievedStrengthData)
 
 #Creating Data Set For Testing 1
 angles1 = np.linspace(1,360,360)
-strengths = np.linspace(60,60,180)
-strengths1 = np.linspace(30,30,90)
-strengths2 = np.linspace(30,30,90)
+strengths1 = np.linspace(-60,-60,45)
+strengths = np.linspace(-30,-30,180)
+strengths2 = np.linspace(-60,-60,135)
 strengths1 = np.concatenate((strengths1, strengths, strengths2))
 
 #Creating Data Set For Testing 2
 angles2 = np.linspace(1,360,360)
-twostrengths = np.linspace(60,60,180)
-twostrengths1 = np.linspace(30,30,90)
-twostrengths2 = np.linspace(30,30,90)
+twostrengths1 = np.linspace(-60,-60,45)
+twostrengths = np.linspace(-30,-30,180)
+twostrengths2 = np.linspace(-60,-60,135)
 strengths2 = np.concatenate((twostrengths1, twostrengths, twostrengths2))
 
 #Starting Data Insert
@@ -30,14 +29,16 @@ strengths2 = strengths2
 #Circular Means
 angles1 = np.deg2rad(angles1)
 angles2 = np.deg2rad(angles2)
+strengths1 = ((min(strengths1))/strengths1)
+strengths2 = ((min(strengths1))/strengths2)
 strengths1 = (strengths1/(sum(strengths1)))
 sins = np.mean(np.sin(angles1)*strengths1)
 coss = np.mean(np.cos(angles1)*strengths1)
-AverageAngle1 = abs(np.arctan2(coss,sins)*360/np.pi+1) #Angle is converted wrong here, but produces right answer?
+AverageAngle1 = abs(np.rad2deg(np.arctan2(sins,coss)))
 strengths2 = (strengths2/(sum(strengths2)))
 sins = np.mean(np.sin(angles1)*strengths2)
 coss = np.mean(np.cos(angles1)*strengths2)
-AverageAngle2 = abs(np.arctan2(coss,sins)*360/np.pi+1)
+AverageAngle2 = abs(np.rad2deg(np.arctan2(sins,coss)))
 
 #Average Angle
 print("Average Angle 1:")
