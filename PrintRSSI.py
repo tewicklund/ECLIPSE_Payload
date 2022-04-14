@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 #https://learn.adafruit.com/lora-and-lorawan-radio-for-raspberry-pi/raspberry-pi-wiring
 #sudo pip3 install adafruit-circuitpython-rfm9x
 
@@ -26,7 +27,7 @@ while True:
     packet=None
     packet=rfm9x.receive()
     if packet is None:
-        #print("waiting for packet")
+        print("waiting for packet")
         pass
     else:
         prev_packet=packet
