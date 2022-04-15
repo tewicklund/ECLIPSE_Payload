@@ -174,7 +174,7 @@ def returnRSSI():
         return("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
 
 def takerange(x,y):
-    sampleCount=711
+    sampleCount=400
     arr=np.full(sampleCount, np.NaN)
     for i in range(sampleCount):
         data=returnRSSI()
@@ -192,14 +192,14 @@ def takerange(x,y):
 def takedataset(y):
     data1 = takerange(1,y)
     print(data1)
-    #data2 = takerange(2,y)
-    #print(data2)
+    data2 = takerange(2,y)
+    print(data2)
     #data3 = takerange(3,y)
     #print(data3)
     #data4 = takerange(4,y)
     #print(data4)
     #data = -np.mean([data1,data2,data3,data4], axis = 0)
-    data = np.mean([data1], axis = 0)
+    data = np.mean([data1,data2], axis = 0)
     data = data[0:320]
     print(data)
     return(-data)
@@ -276,7 +276,7 @@ for i in range(runtime):
     print("Final Y Coordinate:")
     print(finaly)
 
-    X,Y = coord(finalx, finaly)
+    [X,Y] = coord(finalx, finaly)
     print(["Coordinates: ", X," ",Y])
     
     result = X+Y
