@@ -63,23 +63,23 @@ angles2 = np.linspace(1,360,360)
 #Angles = int((a-620)*(180/1000))
 #strength[Angles] = RecievedStrength
 
+#Blindspot 1
+bottom = strengths2[0:4]
+bottom = np.nanmean(bottom)
+top = strengths1[315:319]
+top = np.nanmean(top)
+add = np.linspace(top,bottom,40)
+strengths1 = np.concatenate((strengths1, add))
+col_mean = np.nanmean(strengths1, axis=0)
+inds = np.where(np.isnan(strengths1))
+strengths1[inds] = np.take(col_mean, inds[1])
+
 runtime = 1
 for i in range(runtime):
 
-    strengths1 = takedataset()
-    RSS1 = max(strengths1)
-    distance23 = RDE(RSS1)
-
-    #Blindspot 1
-    bottom = strengths2[0:4]
-    bottom = np.nanmean(bottom)
-    top = strengths1[315:319]
-    top = np.nanmean(top)
-    add = np.linspace(top,bottom,40)
-    strengths1 = np.concatenate((strengths1, add))
-    col_mean = np.nanmean(strengths1, axis=0)
-    inds = np.where(np.isnan(strengths1))
-    strengths1[inds] = np.take(col_mean, inds[1])
+    strengths2 = takedataset()
+    RSS2 = max(strengths2)
+    distance23 = RDE(RSS2)
 
     #Blindspot 2
     bottom = strengths2[0:4]
