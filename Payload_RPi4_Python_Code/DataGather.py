@@ -7,10 +7,6 @@ warnings.filterwarnings('ignore')
 #recommended usage:
 #python -u ./PrintRSSI.py | ./DataGather.py
 
-def RDE(RSSI):
-    distance = RSSI
-    return distance
-
 def takerange():
     sampleCount=711
     arr=np.full(sampleCount, np.NaN)
@@ -35,13 +31,11 @@ def takedataset():
     return(data)
 
 strengths1 = takedataset()
-RSS1 = max(strengths1)
-distance12 = RDE(RSS1)
 angles1 = np.linspace(1,360,360)
 
 print("Data Set:")
 print(strengths1)
 print("Max RSSI:")
-print(RSS1)
+print(max(strengths1))
 print("Min RSSI:")
 print(min(strengths1))
