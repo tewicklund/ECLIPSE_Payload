@@ -192,18 +192,21 @@ def takerange():
 def takedataset():
     data1 = takerange()
     print(data1)
-    data2 = takerange()
-    print(data2)
-    data3 = takerange()
-    print(data3)
-    data4 = takerange()
-    print(data4)
-    data = -np.mean([data1,data2,data3,data4], axis = 0)
+    #data2 = takerange()
+    #print(data2)
+    #data3 = takerange()
+    #print(data3)
+    #data4 = takerange()
+    #print(data4)
+    #data = -np.mean([data1,data2,data3,data4], axis = 0)
+    data = np.mean([data1], axis = 0)
     data = data[0:320]
-    return(data)
+    data = float(data)
+    print(data)
+    return(-data)
 
 strengths1 = takedataset()
-RSS1 = max(strengths1)
+RSS1 = -max(strengths1)
 distance12 = RDE(RSS1)
 angles1 = np.linspace(1,360,360)
 angles2 = np.linspace(1,360,360)
@@ -215,16 +218,15 @@ top = strengths1[315:320]
 top = np.nanmean(top)
 add = np.linspace(top,bottom,39)
 strengths1 = np.concatenate((strengths1, add))
-col_mean = np.nanmean(strengths1, axis=0)
-inds = np.where(np.isnan(strengths1))
-strengths1[inds] = np.take(col_mean, inds[1])
+mean = np.nanmean(strengths1, axis=0)-20
+strengths1 = np.nan_to_num(strengths1,nan=mean)
 
 runtime = 20
 
 for i in range(runtime):
 
     strengths2 = takedataset()
-    RSS2 = max(strengths2)
+    RSS2 = -max(strengths2)
     distance23 = RDE(RSS2)
 
     #Blindspot 2
@@ -234,10 +236,8 @@ for i in range(runtime):
     top = np.nanmean(top)
     add = np.linspace(top,bottom,39)
     strengths2 = np.concatenate((strengths2, add))
-    angles1[strengths1 != np.NaN]
-    col_mean = np.nanmean(strengths1, axis=0)
-    inds = np.where(np.isnan(strengths1))
-    strengths1[inds] = np.take(col_mean, inds[1])
+    mean = np.nanmean(strengths2, axis=0)-20
+    strengths2 = np.nan_to_num(strengths2,nan=mean)
 
     #Circular Means
     angles1 = np.deg2rad(angles1)
