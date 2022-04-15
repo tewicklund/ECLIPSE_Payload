@@ -173,13 +173,13 @@ def returnRSSI():
         packet_int=int((packet_int-620)*.18)
         return("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
 
-def takerange(x):
+def takerange(x,y):
     sampleCount=711
     arr=np.full(sampleCount, np.NaN)
     for i in range(sampleCount):
         data=returnRSSI()
         if(data.replace(" ","").isdigit()): #remove spaces to check if only numbers recieved
-            print(["Number Detected: ", x])
+            print("Number Detected: ", x, y)
             a, b = map(int, data.split())
             print("got data "+str(b)+" at coord "+str(a))
 		    ####TODO: change index from i to instead be calculated by angle from message
@@ -189,14 +189,14 @@ def takerange(x):
     return(arr)
 
 
-def takedataset():
-    data1 = takerange(1)
+def takedataset(y):
+    data1 = takerange(1,y)
     print(data1)
-    #data2 = takerange(2)
+    #data2 = takerange(2,y)
     #print(data2)
-    #data3 = takerange(3)
+    #data3 = takerange(3,y)
     #print(data3)
-    #data4 = takerange(4)
+    #data4 = takerange(4,y)
     #print(data4)
     #data = -np.mean([data1,data2,data3,data4], axis = 0)
     data = np.mean([data1], axis = 0)
@@ -204,7 +204,7 @@ def takedataset():
     print(data)
     return(-data)
 
-strengths1 = takedataset()
+strengths1 = takedataset(1)
 RSS1 = -max(strengths1)
 distance12 = RDE(RSS1)
 angles1 = np.linspace(1,360,360)
@@ -215,7 +215,7 @@ bottom = strengths1[0:4]
 bottom = np.nanmean(bottom)
 top = strengths1[315:320]
 top = np.nanmean(top)
-add = np.linspace(top,bottom,39)
+add = np.linspace(top,bottom,40)
 strengths1 = np.concatenate((strengths1, add))
 mean = np.nanmean(strengths1, axis=0)-20
 strengths1 = np.nan_to_num(strengths1,nan=mean)
@@ -224,7 +224,7 @@ runtime = 20
 
 for i in range(runtime):
 
-    strengths2 = takedataset()
+    strengths2 = takedataset(2)
     RSS2 = -max(strengths2)
     distance23 = RDE(RSS2)
 
@@ -233,7 +233,7 @@ for i in range(runtime):
     bottom = np.nanmean(bottom)
     top = strengths2[315:320]
     top = np.nanmean(top)
-    add = np.linspace(top,bottom,39)
+    add = np.linspace(top,bottom,40)
     strengths2 = np.concatenate((strengths2, add))
     mean = np.nanmean(strengths2, axis=0)-20
     strengths2 = np.nan_to_num(strengths2,nan=mean)
