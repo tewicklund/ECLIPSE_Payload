@@ -1,2 +1,1 @@
-python PrintRSSI.py &
-python DataGather.py &
+python -u ./PrintRSSI.py | ./DataGather.py
