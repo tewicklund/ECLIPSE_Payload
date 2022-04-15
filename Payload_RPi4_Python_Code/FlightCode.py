@@ -173,13 +173,13 @@ def returnRSSI():
         packet_int=int((packet_int-620)*.18)
         return("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
 
-def takerange():
+def takerange(x):
     sampleCount=711
     arr=np.full(sampleCount, np.NaN)
     for i in range(sampleCount):
         data=returnRSSI()
         if(data.replace(" ","").isdigit()): #remove spaces to check if only numbers recieved
-            print("number detected")
+            print(["Number Detected: ", x])
             a, b = map(int, data.split())
             print("got data "+str(b)+" at coord "+str(a))
 		    ####TODO: change index from i to instead be calculated by angle from message
@@ -190,18 +190,17 @@ def takerange():
 
 
 def takedataset():
-    data1 = takerange()
+    data1 = takerange(1)
     print(data1)
-    #data2 = takerange()
+    #data2 = takerange(2)
     #print(data2)
-    #data3 = takerange()
+    #data3 = takerange(3)
     #print(data3)
-    #data4 = takerange()
+    #data4 = takerange(4)
     #print(data4)
     #data = -np.mean([data1,data2,data3,data4], axis = 0)
     data = np.mean([data1], axis = 0)
     data = data[0:320]
-    data = float(data)
     print(data)
     return(-data)
 
