@@ -35,8 +35,16 @@ def findstart():
             print(packet_text)
         else:
             print("Found Start Signal")
+            message=bytes("START","utf-8")
+            for i in range(30)
+                rfm9x.send(message)
+                time.sleep(0.01)
+                print("Sending Confirmation")
             break
         time.sleep(0.01)
+
+findstart()
+print("Found Start Signal")
 
 findstart()
 print("Found Start Signal")
