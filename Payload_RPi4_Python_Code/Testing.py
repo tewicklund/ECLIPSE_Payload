@@ -43,6 +43,7 @@ def start():
         time.sleep(0.01)
 
 start()
+time.sleep(20)
 
 packet_text = 'Started'
 while True:
