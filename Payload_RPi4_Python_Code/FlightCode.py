@@ -2,6 +2,12 @@ import numpy as np
 import warnings
 import pandas as pd
 import sys
+import RPi.GPIO as GPIO
+import board
+import busio
+from digitalio import DigitalInOut, Direction, Pull
+import adafruit_rfm9x
+warnings.filterwarnings('ignore')
 warnings.filterwarnings('ignore')
 
 #! /usr/bin/env python3
@@ -10,21 +16,50 @@ warnings.filterwarnings('ignore')
 
 print("hello!")
 
-#Creating Data Set For Testing 1
-angles1 = np.linspace(1,360,360)
-strengths1 = np.linspace(-60,-60,45)
-strengths = np.linspace(-30,-30,180)
-strengths2 = np.linspace(-60,-60,135)
-strengths1 = np.concatenate((strengths1, strengths, strengths2))
-strengths1 = strengths1[0:320]
+CS = DigitalInOut(board.CE1)
+RESET = DigitalInOut(board.D25)
+spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 
-#Creating Data Set For Testing 2
-angles2 = np.linspace(1,360,360)
-twostrengths1 = np.linspace(-60,-60,45)
-twostrengths = np.linspace(-30,-30,180)
-twostrengths2 = np.linspace(-60,-60,135)
-strengths2 = np.concatenate((twostrengths1, twostrengths, twostrengths2))
-strengths2 = strengths2[0:320]
+#Look For Start Signal
+try:
+    rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 910.0)
+    print('RFM9x: Detected')
+    #set transmission power to max (5 to 23)
+    rfm9x.tx_power=23
+
+except RuntimeError as error:
+    # Thrown on version mismatch
+    print('RFM9x Error: ', error)
+packet_text = 'Started'
+
+def findstart():
+    g = 0
+    while g == 0:
+        packet=rfm9x.receive()
+        if packet is None:
+            print("Looking For Start Signal")
+        else:
+            print("Found Start Signal")
+            message=bytes("START","utf-8")
+            for i in range(30):
+                rfm9x.send(message)
+                time.sleep(0.01)
+                print("Sending Confirmation")
+                g=1
+                break
+        time.sleep(0.01)
+
+findstart()
+print("Found Start Signal")
+
+#check that the radio works:
+try:
+    rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 915.0)
+    print('RFM9x: Detected')
+except RuntimeError as error:
+    # Thrown on version mismatch
+
+    print('RFM9x Error: ', error)
 
 def coord(X, Y):
     if X >= 0 and X <= 250:
@@ -115,21 +150,34 @@ def coord(X, Y):
         print("out of range")
         Y = "99"
 
-    lines = ["Coordinates: ", X," ",Y]
-    with open('PayloadCoord.txt', 'a') as f:
-        f.writelines(lines)
-        f.write("\n")
-    return(X,Y)
+    #lines = ["Coordinates: ", X," ",Y]
+    #with open('PayloadCoord.txt', 'a') as f:
+    #    f.writelines(lines)
+    #    f.write("\n")
+    #return(X,Y)
 
 def RDE(RSSI):
     distance = RSSI
     return distance
 
+def returnRSSI():
+    packet=None
+    packet=rfm9x.receive()
+    if packet is None:
+        return("waiting for packet")
+        pass
+    else:
+        prev_packet=packet
+        packet_text=str(prev_packet, "utf-8")
+        packet_int=int(packet_text[0:-1])
+        packet_int=int((packet_int-620)*.18)
+        return("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
+
 def takerange():
     sampleCount=711
     arr=np.full(sampleCount, np.NaN)
     for i in range(sampleCount):
-        data=input()
+        data=returnRSSI()
         if(data.replace(" ","").isdigit()): #remove spaces to check if only numbers recieved
             print("number detected")
             a, b = map(int, data.split())
@@ -140,12 +188,17 @@ def takerange():
             print("warning, number not found, got "+data)
     return(arr)
 
+
 def takedataset():
     data1 = takerange()
+    print(data1)
     data2 = takerange()
+    print(data2)
     data3 = takerange()
+    print(data3)
     data4 = takerange()
-    data = np.mean([data1,data2,data3,data4], axis = 0)
+    print(data4)
+    data = -np.mean([data1,data2,data3,data4], axis = 0)
     return(data)
 
 strengths1 = takedataset()
@@ -154,12 +207,8 @@ distance12 = RDE(RSS1)
 angles1 = np.linspace(1,360,360)
 angles2 = np.linspace(1,360,360)
 
-#strength = np.zeros(360)
-#Angles = int((a-620)*(180/1000))
-#strength[Angles] = RecievedStrength
-
 #Blindspot 1
-bottom = strengths2[0:4]
+bottom = strengths1[0:4]
 bottom = np.nanmean(bottom)
 top = strengths1[315:319]
 top = np.nanmean(top)
@@ -169,7 +218,8 @@ col_mean = np.nanmean(strengths1, axis=0)
 inds = np.where(np.isnan(strengths1))
 strengths1[inds] = np.take(col_mean, inds[1])
 
-runtime = 1
+runtime = 20
+
 for i in range(runtime):
 
     strengths2 = takedataset()
@@ -228,3 +278,34 @@ for i in range(runtime):
 
     X,Y = coord(finalx, finaly)
     print(["Coordinates: ", X," ",Y])
+    
+    result = X+Y
+    
+    try:
+        rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 910.0)
+        print('RFM9x: Detected')
+        #set transmission power to max (5 to 23)
+        rfm9x.tx_power=23
+    
+    except RuntimeError as error:
+        # Thrown on version mismatch
+        print('RFM9x Error: ', error)
+    
+    #Send Result
+    print("Sending Result Pulses...")
+
+    def start():
+        i = 0
+        while i < 10:
+            message=bytes(result,"utf-8")
+            rfm9x.send(message)
+            time.sleep(0.01)
+            i = i + 1
+    start()
+
+    try:
+        rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 915.0)
+        print('RFM9x: Detected')
+    except RuntimeError as error:
+        # Thrown on version mismatch
+        print('RFM9x Error: ', error)
