@@ -154,7 +154,7 @@ def coord(X, Y):
     #with open('PayloadCoord.txt', 'a') as f:
     #    f.writelines(lines)
     #    f.write("\n")
-    #return(X,Y)
+    return(X,Y)
 
 def RDE(RSSI):
     distance = RSSI
