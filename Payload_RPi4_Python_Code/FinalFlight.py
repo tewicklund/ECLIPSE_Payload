@@ -28,7 +28,8 @@ except RuntimeError as error:
 packet_text = 'Started'
 
 def findstart():
-    while True:
+    g = 0
+    while g == 0:
         packet=rfm9x.receive()
         if packet is None:
             print("Looking For Start Signal")
@@ -39,6 +40,7 @@ def findstart():
                 rfm9x.send(message)
                 time.sleep(0.01)
                 print("Sending Confirmation")
+            g=1
             break
         time.sleep(0.01)
 
