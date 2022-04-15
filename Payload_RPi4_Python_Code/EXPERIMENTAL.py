@@ -30,17 +30,17 @@ except RuntimeError as error:
     print('RFM9x Error: ', error)
 
 def returnRSSI():
-   packet=None
+    packet=None
     packet=rfm9x.receive()
-    if packet is None:
-        print("waiting for packet")
-        pass
-    else:
-        prev_packet=packet
-        packet_text=str(prev_packet, "utf-8")
-        packet_int=int(packet_text[0:-1])
-        packet_int=int((packet_int-620)*.18)
-        return("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
+	if packet is None:
+		print("waiting for packet")
+		pass
+	else:
+		prev_packet=packet
+		packet_text=str(prev_packet, "utf-8")
+		packet_int=int(packet_text[0:-1])
+		packet_int=int((packet_int-620)*.18)
+		return("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
 
 
 
