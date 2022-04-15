@@ -1,7 +1,7 @@
 import numpy as np
 import warnings
+import pandas as pd
 import sys
-import time
 import RPi.GPIO as GPIO
 import board
 import busio
@@ -199,6 +199,7 @@ def takedataset():
     data4 = takerange()
     print(data4)
     data = -np.mean([data1,data2,data3,data4], axis = 0)
+    data = data[0:320]
     return(data)
 
 strengths1 = takedataset()
@@ -210,9 +211,9 @@ angles2 = np.linspace(1,360,360)
 #Blindspot 1
 bottom = strengths1[0:4]
 bottom = np.nanmean(bottom)
-top = strengths1[315:319]
+top = strengths1[315:320]
 top = np.nanmean(top)
-add = np.linspace(top,bottom,40)
+add = np.linspace(top,bottom,39)
 strengths1 = np.concatenate((strengths1, add))
 col_mean = np.nanmean(strengths1, axis=0)
 inds = np.where(np.isnan(strengths1))
@@ -229,9 +230,9 @@ for i in range(runtime):
     #Blindspot 2
     bottom = strengths2[0:4]
     bottom = np.nanmean(bottom)
-    top = strengths2[315:319]
+    top = strengths2[315:320]
     top = np.nanmean(top)
-    add = np.linspace(top,bottom,40)
+    add = np.linspace(top,bottom,39)
     strengths2 = np.concatenate((strengths2, add))
     angles1[strengths1 != np.NaN]
     col_mean = np.nanmean(strengths1, axis=0)
@@ -280,7 +281,7 @@ for i in range(runtime):
     print(["Coordinates: ", X," ",Y])
     
     result = X+Y
-    
+
     try:
         rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 910.0)
         print('RFM9x: Detected')
