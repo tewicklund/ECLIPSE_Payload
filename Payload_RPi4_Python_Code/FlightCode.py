@@ -204,6 +204,7 @@ def takedataset(y):
     return(data)
 
 strengths1 = takedataset(1)
+strengths1 = -strengths1
 RSS1 = -min(strengths1)
 distance12 = RDE(RSS1)
 angles1 = np.linspace(1,360,360)
@@ -224,6 +225,7 @@ runtime = 20
 for i in range(runtime):
 
     strengths2 = takedataset(2)
+    strengths2 = -strengths2
     RSS2 = -min(strengths2)
     distance23 = RDE(RSS2)
 
@@ -299,10 +301,10 @@ for i in range(runtime):
             i = i + 1
     start()
 
-    lines = ["Flight: ", runtime]
+    lines = ["Flight: ", str(runtime)]
     lines1 = ["Coordinates: ", X1," ",Y1]
-    lines2 = ["Coordinates (X,Y): ", finalx," ",finaly]
-    lines3 = ["Angles (1,2): ", Angle1," ",Angle2]
+    lines2 = ["Coordinates (X,Y): ", str(finalx)," ",str(finaly)]
+    lines3 = ["Angles (1,2): ", str(Angle1)," ",str(Angle2)]
     with open('PayloadCoord_{}.txt'.format(starttime), 'a') as f:
         f.writelines(lines)
         f.write("\n")
