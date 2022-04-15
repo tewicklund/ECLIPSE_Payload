@@ -43,9 +43,6 @@ def findstart():
                 print("Sending Confirmation")
                 g=1
         time.sleep(0.01)
-	
-findstart()
-print("Found Start Signal")
 
 findstart()
 print("Found Start Signal")
@@ -89,10 +86,10 @@ def takerange():
 
 def takedataset():
     data1 = takerange()
-    data2 = takerange()
+    #data2 = takerange()
     #data3 = takerange()
     #data4 = takerange()
-    data = np.mean([data1,data2], axis = 0)
+    data = np.mean([data1], axis = 0)
     data = data[0:359]
     return(data)
 
@@ -122,5 +119,6 @@ print("Sending Result Pulses...")
 def start():
     while True:
         message=bytes(result,"utf-8")
+        rfm9x.send(message)
         time.sleep(0.01)
 start()
