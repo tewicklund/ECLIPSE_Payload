@@ -202,7 +202,7 @@ def takedataset(y):
     data = np.nanmean([data1,data2], axis = 0)
     data = data[0:320]
     print(data)
-    return(-data)
+    return(data)
 
 strengths1 = takedataset(1)
 RSS1 = -max(strengths1)
@@ -268,18 +268,15 @@ for i in range(runtime):
     finalx = groundx + distance23*np.cos(Angle2)
     finaly = groundy + distance23*np.sin(Angle2)
 
-    X = finalx
-    Y = finaly
-
     print("Final X Coordinate:")
     print(finalx)
     print("Final Y Coordinate:")
     print(finaly)
 
-    [X,Y] = coord(finalx, finaly)
-    print(["Coordinates: ", X," ",Y])
+    X1,Y1 = coord(finalx, finaly)
+    print(["Coordinates: ", X1," ",Y1])
     
-    result = X+Y
+    result = X1+Y1
 
     try:
         rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 910.0)
