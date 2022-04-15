@@ -30,16 +30,19 @@ except RuntimeError as error:
  
 #Rapidly send the string "RDE"
 print("Sending Start Pulses...")
+
 def start():
-    while True:
+    g = 0
+    while g == 0:
         message=bytes("START","utf-8")
         rfm9x.send(message)
         packet=rfm9x.receive()
         if packet is None:
             print("waiting for packet")
+            break
         else:
             print("Recieved Start Confirmation")
-            sys.exit()
+            g=1
         time.sleep(0.01)
 
 start()
