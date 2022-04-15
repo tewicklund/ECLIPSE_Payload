@@ -198,8 +198,8 @@ def takedataset(y):
     #print(data3)
     #data4 = takerange(4,y)
     #print(data4)
-    #data = -np.mean([data1,data2,data3,data4], axis = 0)
-    data = np.mean([data1,data2], axis = 0)
+    #data = -np.nanmean([data1,data2,data3,data4], axis = 0)
+    data = np.nanmean([data1,data2], axis = 0)
     data = data[0:320]
     print(data)
     return(-data)
