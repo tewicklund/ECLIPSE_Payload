@@ -7,7 +7,7 @@ import numpy as np
 import sys
 
 print("hello!")
-sampleCount=360
+sampleCount=711
 arr=np.full(sampleCount, np.NaN)
 for i in range(sampleCount):
 	data=input()
