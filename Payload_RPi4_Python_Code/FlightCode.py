@@ -217,9 +217,10 @@ strengths1 = np.concatenate((strengths1, add))
 mean = np.nanmean(strengths1, axis=0)-20
 strengths1 = np.nan_to_num(strengths1,nan=mean)
 
-runtime = 20
+runtime = 200
 
 for i in range(runtime):
+    k = 1
 
     strengths2 = takedataset(2)
     strengths2 = -strengths2
@@ -298,10 +299,10 @@ for i in range(runtime):
             i = i + 1
     start()
 
-    lines = ["Flight: ", str(runtime)]
+    lines = ["Flight: ", str(k)]
     lines1 = ["Coordinates: ", X1," ",Y1]
     lines2 = ["Coordinates (X,Y): ", str(finalx)," ",str(finaly)]
-    lines3 = ["Angles (1,2): ", str(Angle1)," ",str(Angle2)]
+    lines3 = ["Angles (1,2): ", str(np.rad2deg(Angle1))," ",str(np.rad2deg(Angle2))]
     with open('PayloadCoord_{}.txt'.format(starttime), 'a') as f:
         f.writelines(lines)
         f.write("\n")
@@ -311,6 +312,7 @@ for i in range(runtime):
         f.write("\n")
         f.writelines(lines3)
         f.write("\n")
+        f.write("\n")
 
     try:
         rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 915.0)
@@ -318,3 +320,4 @@ for i in range(runtime):
     except RuntimeError as error:
         # Thrown on version mismatch
         print('RFM9x Error: ', error)
+    k = k+1
