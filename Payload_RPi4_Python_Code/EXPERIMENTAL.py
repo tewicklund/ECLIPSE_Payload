@@ -29,7 +29,7 @@ except RuntimeError as error:
 
     print('RFM9x Error: ', error)
 
-def returnRSSI:
+def returnRSSI():
    packet=None
     packet=rfm9x.receive()
     if packet is None:
@@ -49,7 +49,7 @@ def takerange():
     sampleCount=711
     arr=np.full(sampleCount, np.NaN)
     for i in range(sampleCount):
-        data=input()
+        data=returnRSSI()
         if(data.replace(" ","").isdigit()): #remove spaces to check if only numbers recieved
             print("number detected")
             a, b = map(int, data.split())
