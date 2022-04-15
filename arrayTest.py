@@ -19,4 +19,10 @@ for i in range(sampleCount):
 		arr[int(a)]=b
 	else:
 		print("warning, number not found, got "+data)
+arr = arr[0:359]
+print("Data Set:")
 print(arr)
+print("Max RSSI:")
+print(max(arr))
+print("Min RSSI:")
+print(min(arr))
