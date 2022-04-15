@@ -21,7 +21,7 @@ GPIO.setmode(GPIO.BCM)
 
 #Check connection to Radio:
 try:
-    rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 915.0)
+    rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 910.0)
     print('RFM9x: Detected')
     #set transmission power to max (5 to 23)
     rfm9x.tx_power=23
