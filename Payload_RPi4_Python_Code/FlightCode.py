@@ -2,6 +2,7 @@ import numpy as np
 import warnings
 import sys
 import time
+from datetime import datetime
 import RPi.GPIO as GPIO
 import board
 import busio
@@ -19,6 +20,8 @@ print("hello!")
 CS = DigitalInOut(board.CE1)
 RESET = DigitalInOut(board.D25)
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
+
+starttime = str(datetime.now().time())
 
 #Look For Start Signal
 try:
@@ -150,14 +153,10 @@ def coord(X, Y):
         print("out of range")
         Y = "99"
 
-    #lines = ["Coordinates: ", X," ",Y]
-    #with open('PayloadCoord.txt', 'a') as f:
-    #    f.writelines(lines)
-    #    f.write("\n")
     return(X,Y)
 
 def RDE(RSSI):
-    distance = RSSI
+    distance = 0.0105*np.exp(0.0946*RSSI)
     return distance
 
 def returnRSSI():
@@ -205,7 +204,7 @@ def takedataset(y):
     return(data)
 
 strengths1 = takedataset(1)
-RSS1 = -max(strengths1)
+RSS1 = -min(strengths1)
 distance12 = RDE(RSS1)
 angles1 = np.linspace(1,360,360)
 angles2 = np.linspace(1,360,360)
@@ -225,7 +224,7 @@ runtime = 20
 for i in range(runtime):
 
     strengths2 = takedataset(2)
-    RSS2 = -max(strengths2)
+    RSS2 = -min(strengths2)
     distance23 = RDE(RSS2)
 
     #Blindspot 2
@@ -262,8 +261,8 @@ for i in range(runtime):
     Angle1 = np.deg2rad(AverageAngle1)
     Angle2 = np.deg2rad(AverageAngle2)
 
-    groundx = distance12*np.cos(Angle1)
-    groundy = distance12*np.sin(Angle1)
+    groundx = -distance12*np.cos(Angle1)
+    groundy = -distance12*np.sin(Angle1)
 
     finalx = groundx + distance23*np.cos(Angle2)
     finaly = groundy + distance23*np.sin(Angle2)
@@ -293,12 +292,26 @@ for i in range(runtime):
 
     def start():
         i = 0
-        while i < 10:
+        while i < 30:
             message=bytes(result,"utf-8")
             rfm9x.send(message)
             time.sleep(0.01)
             i = i + 1
     start()
+
+    lines = ["Flight: ", runtime]
+    lines1 = ["Coordinates: ", X1," ",Y1]
+    lines2 = ["Coordinates (X,Y): ", finalx," ",finaly]
+    lines3 = ["Angles (1,2): ", Angle1," ",Angle2]
+    with open('PayloadCoord_{}.txt'.format(starttime), 'a') as f:
+        f.writelines(lines)
+        f.write("\n")
+        f.writelines(lines1)
+        f.write("\n")
+        f.writelines(lines2)
+        f.write("\n")
+        f.writelines(lines3)
+        f.write("\n")
 
     try:
         rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, 915.0)
