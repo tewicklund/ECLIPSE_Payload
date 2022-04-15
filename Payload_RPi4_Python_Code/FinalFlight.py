@@ -33,7 +33,6 @@ def findstart():
         packet=rfm9x.receive()
         if packet is None:
             print("Looking For Start Signal")
-            break
         else:
             print("Found Start Signal")
             message=bytes("START","utf-8")
@@ -42,6 +41,7 @@ def findstart():
                 time.sleep(0.01)
                 print("Sending Confirmation")
                 g=1
+                break
         time.sleep(0.01)
 
 findstart()
