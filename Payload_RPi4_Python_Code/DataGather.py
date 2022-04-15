@@ -6,7 +6,7 @@ warnings.filterwarnings('ignore')
 
 #! /usr/bin/env python3
 #recommended usage:
-#python -u ./PrintRSSI.py | ./arrayTest.py
+#python -u ./PrintRSSI.py | ./DataGather.py
 
 def RDE(RSSI):
     distance = RSSI
