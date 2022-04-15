@@ -35,10 +35,11 @@ def findstart():
             print(packet_text)
         else:
             print("Found Start Signal")
-            sys.exit()
+            break
         time.sleep(0.01)
 
 findstart()
+print("Found Start Signal")
 
 #check that the radio works:
 try:
