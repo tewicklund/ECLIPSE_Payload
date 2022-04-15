@@ -1,6 +1,7 @@
 import numpy as np
 import warnings
 import sys
+import time
 import RPi.GPIO as GPIO
 import board
 import busio
