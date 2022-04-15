@@ -63,9 +63,9 @@ def takerange():
 def takedataset():
     data1 = takerange()
     data2 = takerange()
-    data3 = takerange()
-    data4 = takerange()
-    data = np.mean([data1,data2,data3,data4], axis = 0)
+    #data3 = takerange()
+    #data4 = takerange()
+    data = np.mean([data1,data2], axis = 0)
     return(data)
 
 strengths1 = takedataset()
