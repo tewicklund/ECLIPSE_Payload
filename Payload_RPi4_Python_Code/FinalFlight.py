@@ -41,7 +41,7 @@ def findstart():
                 rfm9x.send(message)
                 time.sleep(0.01)
                 print("Sending Confirmation")
-        g=1
+                g=1
         time.sleep(0.01)
 	
 findstart()
