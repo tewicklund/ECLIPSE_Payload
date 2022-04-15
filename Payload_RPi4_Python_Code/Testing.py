@@ -1,15 +1,13 @@
-import numpy as np
-import warnings
-import sys
+#This code sends a start pulse and then waits for result
+
+#General setup:
 import time
 import RPi.GPIO as GPIO
 import board
 import busio
 from digitalio import DigitalInOut, Direction, Pull
 import adafruit_rfm9x
-warnings.filterwarnings('ignore')
-
-#This code sends a start pulse and then waits for result
+import sys
 
 # Configure RFM9x LoRa Radio
 CS = DigitalInOut(board.CE1)
