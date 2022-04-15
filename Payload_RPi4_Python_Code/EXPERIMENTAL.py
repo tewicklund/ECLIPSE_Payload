@@ -33,7 +33,7 @@ def returnRSSI():
     packet=None
     packet=rfm9x.receive()
     if packet is None:
-	print("waiting for packet")
+        print("waiting for packet")
 	pass
     else:
 	prev_packet=packet
