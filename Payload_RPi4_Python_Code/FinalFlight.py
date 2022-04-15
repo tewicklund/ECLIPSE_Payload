@@ -27,15 +27,18 @@ except RuntimeError as error:
     print('RFM9x Error: ', error)
 packet_text = 'Started'
 
-while True:
-    packet=rfm9x.receive()
-    if packet is None:
-        print("Looking For Start Signal")
-        print(packet_text)
-    else:
-        print("Found Start Signal")
-        sys.exit()
-    time.sleep(0.01)
+def findstart():
+    while True:
+        packet=rfm9x.receive()
+        if packet is None:
+            print("Looking For Start Signal")
+            print(packet_text)
+        else:
+            print("Found Start Signal")
+            sys.exit()
+        time.sleep(0.01)
+
+findstart()
 
 #check that the radio works:
 try:
