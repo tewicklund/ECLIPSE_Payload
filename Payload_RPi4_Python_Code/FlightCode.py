@@ -26,6 +26,101 @@ twostrengths2 = np.linspace(-60,-60,135)
 strengths2 = np.concatenate((twostrengths1, twostrengths, twostrengths2))
 strengths2 = strengths2[0:320]
 
+def coord(X, Y):
+    if X >= 0 and X <= 250:
+        X = "K"
+    elif X>250 and X <=500:
+        X = "L"
+    elif X>500 and X <=750:
+        X = "M"
+    elif X>750 and X <=1000:
+        X = "N"
+    elif X>1000 and X <=1250:
+        X = "O"
+    elif X>1250 and X <=1500:
+        X = "P"
+    elif X>1500 and X <=1750:
+        X = "Q"
+    elif X>1750 and X <=2000:
+        X = "R"
+    elif X>2000 and X <=2250:
+        X = "S"
+    elif X>2250 and X <=2500:
+        X = "T"
+    elif X<0 and X >= -250:
+        X = "J"
+    elif X<-250 and X >=-500:
+        X = "I"
+    elif X<-500 and X >=-750:
+        X = "H"
+    elif X<-750 and X >=-1000:
+        X = "G"
+    elif X<-1000 and X >=-1250:
+        X = "F"
+    elif X<-1250 and X >=-1500:
+        X = "E"
+    elif X<-1500 and X >=-1750:
+        X = "D"
+    elif X<-1750 and X >=-2000:
+        X = "C"
+    elif X<-2000 and X >=-2250:
+        X = "B"
+    elif X<-2250 and X >=-2500:
+        X = "A"
+    else:
+        print("out of range")
+        X = "Z"
+    
+    if Y >= 0 and Y <= 250:
+         Y = "10"
+    elif Y>250 and Y <=500:
+        Y = "9"
+    elif Y>500 and Y <=750:
+        Y = "8"
+    elif Y>750 and Y <=1000:
+        Y = "7"
+    elif Y>1000 and Y <=1250:
+        Y = "6"
+    elif Y>1250 and Y <=1500:
+        Y = "5"
+    elif Y>1500 and Y <=1750:
+        Y = "4"
+    elif Y>1750 and Y <=2000:
+        Y = "3"
+    elif Y>2000 and Y <=2250:
+        Y = "2"
+    elif Y>2250 and Y <=2500:
+        Y = "1"
+    elif Y<0 and Y >= -250:
+        Y = "11"
+    elif Y<-250 and Y >=-500:
+        Y = "12"
+    elif Y<-500 and Y >=-750:
+        Y = "13"
+    elif Y<-750 and Y >=-1000:
+        Y = "14"
+    elif Y<-1000 and Y >=-1250:
+        Y = "15"
+    elif Y<-1250 and Y >=-1500:
+        Y = "16"
+    elif Y<-1500 and Y >=-1750:
+        Y = "17"
+    elif Y<-1750 and Y >=-2000:
+        Y = "18"
+    elif Y<-2000 and Y >=-2250:
+        Y = "19"
+    elif Y<-2250 and Y >=-2500:
+        Y = "20"
+    else:
+        print("out of range")
+        Y = "99"
+
+    lines = ["Coordinates: ", X," ",Y]
+    with open('PayloadCoord.txt', 'a') as f:
+        f.writelines(lines)
+        f.write("\n")
+    return(X,Y)
+
 def RDE(RSSI):
     distance = RSSI
     return distance
@@ -130,3 +225,6 @@ for i in range(runtime):
     print(finalx)
     print("Final Y Coordinate:")
     print(finaly)
+
+    X,Y = coord(finalx, finaly)
+    print(["Coordinates: ", X," ",Y])
