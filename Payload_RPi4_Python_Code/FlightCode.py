@@ -44,7 +44,7 @@ def findstart():
         else:
             print("Found Start Signal")
             message=bytes("START","utf-8")
-            for i in range(30):
+            for i in range(100):
                 rfm9x.send(message)
                 time.sleep(0.01)
                 print("Sending Confirmation")
