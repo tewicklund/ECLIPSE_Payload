@@ -64,17 +64,21 @@ while True:
         print("Last Location")
         print(packet_text)
     else:
-        print("Recieved Location")
-        prev_packet=packet
-        packet_text=str(prev_packet, "utf-8")
-        print(packet_text)
-        k=k+1
-        lines = ["Flight: ", str(k)]
-        lines1 = ["Coordinates: ", packet_text]
-        with open('LandingResult_{}.txt'.format(timest), 'a') as f:
-            f.writelines(lines)
-            f.write("\n")
-            f.writelines(lines1)
-            f.write("\n")
-            f.write("\n")
+        try:
+            print("Recieved Location")
+            prev_packet=packet
+            packet_text=str(prev_packet, "utf-8")
+            print(packet_text)
+            k=k+1
+            lines = ["Flight: ", str(k)]
+            lines1 = ["Coordinates: ", packet_text]
+            with open('PayloadResult_{}.txt'.format(timest), 'a') as f:
+                f.writelines(lines)
+                f.write("\n")
+                f.writelines(lines1)
+                f.write("\n")
+                f.write("\n")
+        except:
+            print("Last Location")
+            print(packet_text)
     time.sleep(0.01)
