@@ -295,7 +295,7 @@ for i in range(runtime):
 
     def start():
         i = 0
-        while i < 30:
+        while i < 100:
             message=bytes(result,"utf-8")
             rfm9x.send(message)
             time.sleep(0.01)
