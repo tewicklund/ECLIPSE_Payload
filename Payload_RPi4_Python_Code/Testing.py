@@ -71,7 +71,7 @@ while True:
         k=k+1
         lines = ["Flight: ", str(k)]
         lines1 = ["Coordinates: ", packet_text]
-        with open('PayloadResult_{}.txt'.format(timest), 'a') as f:
+        with open('LandingResult_{}.txt'.format(timest), 'a') as f:
             f.writelines(lines)
             f.write("\n")
             f.writelines(lines1)
