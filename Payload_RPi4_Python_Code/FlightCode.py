@@ -160,17 +160,20 @@ def RDE(RSSI):
     return distance
 
 def returnRSSI():
-    packet=None
-    packet=rfm9x.receive()
-    if packet is None:
+    try:
+        packet=None
+        packet=rfm9x.receive()
+        if packet is None:
+            return("waiting for packet")
+            pass
+        else:
+            prev_packet=packet
+            packet_text=str(prev_packet, "utf-8")
+            packet_int=int(packet_text[0:-1])
+            packet_int=int((packet_int-620)*.18)
+            return("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
+    except:
         return("waiting for packet")
-        pass
-    else:
-        prev_packet=packet
-        packet_text=str(prev_packet, "utf-8")
-        packet_int=int(packet_text[0:-1])
-        packet_int=int((packet_int-620)*.18)
-        return("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
 
 def takerange(x,y):
     sampleCount=740
