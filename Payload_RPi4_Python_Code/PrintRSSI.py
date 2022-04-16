@@ -32,6 +32,7 @@ while True:
     else:
         prev_packet=packet
         packet_text=str(prev_packet, "utf-8")
+        print(packet_text)
         packet_int=int(packet_text[0:-1])
         packet_int=int((packet_int-620)*.18)
         print("{:.0f} {:.0f}".format(packet_int, rfm9x.last_rssi*-1))
