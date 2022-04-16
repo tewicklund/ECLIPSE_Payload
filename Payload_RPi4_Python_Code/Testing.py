@@ -55,6 +55,8 @@ time.sleep(20)
 
 k=0
 
+timest = str(datetime.now().time())
+
 packet_text = 'Started'
 while True:
     packet=rfm9x.receive()
@@ -69,7 +71,7 @@ while True:
         k=k+1
         lines = ["Flight: ", str(k)]
         lines1 = ["Coordinates: ", packet_text]
-        with open('PayloadResult_{}.txt'.format(str(datetime.now().time())), 'a') as f:
+        with open('PayloadResult_{}.txt'.format(timest), 'a') as f:
             f.writelines(lines)
             f.write("\n")
             f.writelines(lines1)
