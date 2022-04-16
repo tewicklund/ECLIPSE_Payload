@@ -1,13 +1,19 @@
 #This code sends a start pulse and then waits for result
 
 #General setup:
+
+import numpy as np
+import warnings
+import sys
 import time
+from datetime import datetime
 import RPi.GPIO as GPIO
 import board
 import busio
 from digitalio import DigitalInOut, Direction, Pull
 import adafruit_rfm9x
-import sys
+warnings.filterwarnings('ignore')
+
 
 # Configure RFM9x LoRa Radio
 CS = DigitalInOut(board.CE1)
@@ -47,6 +53,8 @@ def start():
 start()
 time.sleep(20)
 
+k=0
+
 packet_text = 'Started'
 while True:
     packet=rfm9x.receive()
@@ -58,4 +66,13 @@ while True:
         prev_packet=packet
         packet_text=str(prev_packet, "utf-8")
         print(packet_text)
+        k=k+1
+        lines = ["Flight: ", str(k)]
+        lines1 = ["Coordinates: ", packet_text]
+        with open('PayloadResult_{}.txt'.format(str(datetime.now().time())), 'a') as f:
+            f.writelines(lines)
+            f.write("\n")
+            f.writelines(lines1)
+            f.write("\n")
+            f.write("\n")
     time.sleep(0.01)
