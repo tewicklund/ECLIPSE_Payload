@@ -156,7 +156,7 @@ def coord(X, Y):
     return(X,Y)
 
 def RDE(RSSI):
-    distance = 0.0105*np.exp(0.0946*RSSI)
+    distance = 36.7*np.exp(0.0236*RSSI)
     return distance
 
 def returnRSSI():
